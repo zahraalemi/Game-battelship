@@ -1,27 +1,47 @@
 //create UI class
 class UI {
   constructor() {
+    //html page 
     this.startBox = document.querySelector(".start-box");
-    this.firstPlayerName = document.getElementById("player1Name");
-    this.secoundPlayerName = document.getElementById("player2Name");
-    this.startBtn = document.getElementById("start-btn");
     this.gameBoard = document.querySelector(".game-board");
-    this.playerBoardDiv = document.querySelector(".player-board");
-    this.playerShipDiv = document.querySelector(".player-ship");
-    this.columnArray = ["A", "B", "C", "D", "E", "F", "G", "H", "D", "I"];
-    this.carrier = document.querySelector('.carrier')
-    this.popUp = document.querySelector('.popup-ship-location')
+    this.startTextBox = document.querySelector(".start-text-box");
+    this.startingGameBoard = document.querySelector(".starting-game-board");
 
+    this.playerBoardDiv = document.querySelector(".player-board");
+    this.popUp = document.querySelector(".popup-ship-location");
+    this.playerTurn = document.querySelector(".player-whose-turn");
+    this.playerNext = document.querySelector(".alert-warning span");
+    this.popUpTitle = document.querySelector(".popup-title span");
+
+    //array
+    this.columnArray = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
+    this.p1ShipsLocationArray = [];
+    this.p2ShipsLocationArray = [];
+
+    //Button
+    this.startBtn = document.getElementById("start-btn");
+    this.shipsBoxBtn = document.querySelector(".ships-box");
+    this.doneBtn = document.querySelector(".done-btn");
+    this.cancelBtn = document.querySelector(".cancel-btn");
+    this.nextBtn = document.querySelector(".next-player");
+    this.doneShipsChosenBtn = document.querySelector(".done-ships-chosen");
+    this.startChoosing = document.querySelector(".start-choosing");
+
+    //Fields
+    this.firstPlayerNameInput = document.getElementById("player1Name");
+    this.secoundPlayerNameInput = document.getElementById("player2Name");
+    this.columnName = document.querySelector(".row-name");
+    this.rowName = document.querySelector(".column-name");
+    this.directionsName = document.querySelector(".directions-name");
   }
 
   //create Board game
-  createBoard(player) {
+  createBoard() {
     const playerBoard = document.createElement("div");
-    playerBoard.id = player;
     //loop for create row
     for (let i = 0; i < 10; i++) {
       const row = document.createElement("div");
-      row.id = i + 1;
+      row.id = this.columnArray[i];
       row.classList.add("row");
 
       //loop for create div in row
@@ -30,6 +50,7 @@ class UI {
         div.id = this.columnArray[i] + j;
         div.classList.add("boardDiv");
         div.classList.add("col");
+        div.innerHTML = this.columnArray[i] + j;
 
         row.appendChild(div);
       }
@@ -37,33 +58,48 @@ class UI {
       playerBoard.appendChild(row);
     }
     this.playerBoardDiv.appendChild(playerBoard);
-    
+    /* this.playerTurn.innerText = this.firstPlayerNameInput;
+      this.playerNext.innerText = this.secoundPlayerNameInput;
+      console.log(this.firstPlayerNameInput) */
   }
   sideBar(player1, player2) {
-    /* let sideBarBox = `
-      <div class="col p-4">
-        <div class="row">
-            <h4>Welcome ${player1} </h4>
-            <h5>Please locate your ships by clicking on each ship</h5>
-            <p class="alert alert-warning">${player2} should not look at the monitor</p>
-        </div>
-        <div class="ships d-flex flex-wrap p-3">
-            <a href="#" class="carrier ships m-1">CARRIER</a>
-            <a href="#" class="battelship ships m-1">Bttelship</a>
-            <a href="#" class="destroyer ships m-1">destroyer</a>
-            <a href="#" class="submarine ships m-1">submarine</a>
-            <a href="#" class="patrol ships m-1">patrol</a>
-        </div>
-        <div class="row p-3">
-            <a href="#" class="next-player btn btn-success">Next Player</a>  
-        </div>
-      </div>
-      `;
-    this.playerShipDiv.innerHTML=sideBarBox */
+    this.playerTurn.innerText = player1;
+    this.playerNext.innerText = player2;
   }
 
-  popupshipslocation(){
-      
+  //function for show error in choose ship form
+  displayError(err) {
+    const div = document.createElement("div");
+    div.classList = "alert alert-danger";
+
+    div.innerText = err;
+
+    this.popUp.insertBefore(div, document.querySelector(".form-box"));
+
+    //remove error after 3secound
+    setTimeout(() => {
+      document.querySelector(".alert-danger").remove();
+    }, 5000);
+  }
+
+  removeShipsInBoard(name) {
+    const checkoldship = document.querySelectorAll(`.${name}`);
+    if (checkoldship.length !== 0) {
+      checkoldship.forEach((item) => {
+        item.classList.remove(name);
+      });
+    }
+  }
+  addShipsInBoard(name, shipArray) {
+    for (let i = 0; i < shipArray.length; i++) {
+      if (name == shipArray[i].name) {
+        shipArray[i].location.forEach((item) => {
+          const ship = document.querySelector(`#${item}`);
+          ship.classList.add(name);
+          ship.classList.add("fill");
+        });
+      }
+    }
   }
 }
 

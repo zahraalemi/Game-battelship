@@ -10,9 +10,12 @@
 }
 
 .boardDiv{
-    border: 1px solid #000;
+    border: 1px solid rgb(133, 133, 133);
     width: 20px !important;
     height: 50px;
+    padding-top: 10px;
+    text-align: center;
+    color: rgb(181, 181, 181);
 }
 .game-board{
     width: 80%;
@@ -24,29 +27,29 @@
 .ships{
     position: relative;
 }
-.carrier{
+.carrier-ship{
     background-color: #000;
     width: 200px !important;
     height: 40px !important;
 }
 
-.battelship{
+.battelship-ship{
     background-color: #000;
     width: 160px;
     height: 40px;
     border-radius: 50%;
 }
-.destroyer{
+.destroyer-ship{
     background-color: #000;
     width: 120px;
     height: 40px;
 }
-.submarine{
+.submarine-ship{
     background-color: #000;
     width: 120px;
     height: 40px;
 }
-.patrol{
+.patrol-ship{
     background-color: #000;
     width: 80px;
     height: 40px;
@@ -65,4 +68,11 @@
 }
 .popup-ship-location {
     display: none;
+}
+.player-whose-turn{
+    text-transform: uppercase;
+}
+
+.carrier, .patrol, .submarine, .battelship, .destroyer{
+    background-color: blueviolet;
 }
