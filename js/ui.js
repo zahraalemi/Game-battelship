@@ -6,12 +6,22 @@ class UI {
     this.gameBoard = document.querySelector(".game-board");
     this.startTextBox = document.querySelector(".start-text-box");
     this.startingGameBoard = document.querySelector(".starting-game-board");
+    this.pausePage = document.querySelector(".pause-page");
 
+
+    //
     this.playerBoardDiv = document.querySelector(".player-board");
     this.popUp = document.querySelector(".popup-ship-location");
     this.playerTurn = document.querySelector(".player-whose-turn");
     this.playerNext = document.querySelector(".alert-warning span");
     this.popUpTitle = document.querySelector(".popup-title span");
+    this.firstPlayerBoard = document.querySelector(".first-player-board");
+    this.secooundPlayerBoard = document.querySelector(".secound-player-board");
+    this.firstPlayerTitle = document.querySelector(".pone-name");
+    this.secoundPlayerTitle = document.querySelector(".ptwo-name");
+    this.playerTurnGame = document.querySelector(".player-turn");
+    this.player2Point = document.querySelector(".player2-point");
+    this.player1Point = document.querySelector(".player1-point");
 
     //array
     this.columnArray = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
@@ -26,6 +36,9 @@ class UI {
     this.nextBtn = document.querySelector(".next-player");
     this.doneShipsChosenBtn = document.querySelector(".done-ships-chosen");
     this.startChoosing = document.querySelector(".start-choosing");
+    this.pauseBtn = document.querySelector(".pause-btn");
+    this.continueBtn = document.querySelector(".continue-btn");
+    this.resetGameBtn = document.querySelector(".reset-game");
 
     //Fields
     this.firstPlayerNameInput = document.getElementById("player1Name");
@@ -57,7 +70,7 @@ class UI {
 
       playerBoard.appendChild(row);
     }
-    this.playerBoardDiv.appendChild(playerBoard);
+    return playerBoard
     /* this.playerTurn.innerText = this.firstPlayerNameInput;
       this.playerNext.innerText = this.secoundPlayerNameInput;
       console.log(this.firstPlayerNameInput) */
