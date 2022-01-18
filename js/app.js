@@ -6,10 +6,12 @@ class App {
   constructor() {
     this.shipsName;
     this.shiplength;
-    this.overlap = false;
+    this.isOverlap = false;
     this.locationShips = [];
     this.p1Point = 0;
     this.p2Point = 0;
+    this.p1countCorrectShips = 0;
+    this.p2countCorrectShips = 0;
 
     // get the ui from the ui.js file
     this.ui = new UI();
@@ -17,12 +19,22 @@ class App {
 
   //This function runs when the page loads
   renderToDOM() {
+
     // eventlistener on the 'start game' button
     this.ui.startBtn.addEventListener("click", (e) => {
       e.preventDefault();
+      
+
+      //show loading box for 1 secound
+      this.ui.loadingPage.classList.remove('d-none')
+      setTimeout(() => {
+        this.ui.loadingPage.classList.add('d-none')
+      }, 1000);
+
+
       //change css display for hide Start box
-      this.ui.startBox.style.display = "none";
-      this.ui.gameBoard.style.display = "block";
+      this.ui.startBox.classList.add('d-none')
+      this.ui.gameBoard.classList.remove('d-none')
 
       // condition for check players name
       this.ui.firstPlayerNameInput.value == ""
@@ -47,7 +59,7 @@ class App {
       e.preventDefault();
 
       if (e.target.classList.contains("ships")) {
-        this.ui.popUp.style.display = "block";
+        this.ui.popUp.classList.remove('d-none')
 
         this.shipsName = e.target.innerHTML;
         this.ui.popUpTitle.innerHTML = this.shipsName;
@@ -58,18 +70,22 @@ class App {
         }
       }
     });
-    //eventlistener for cancel button
+
+
+    //eventlistener for cancel button and close popup
     this.ui.cancelBtn.addEventListener("click", (e) => {
       e.preventDefault();
-      this.ui.popUp.style.display = "none";
+      this.ui.popUp.classList.add('d-none')
       this.ui.columnName.value = "";
       this.ui.rowName.value = "";
       this.ui.directionsName.value = "";
     });
+
+
     //eventlistener for done button (add location for every ship)
     this.ui.doneBtn.addEventListener("click", (e) => {
       e.preventDefault();
-
+      
       if (this.ui.p1ShipsLocationArray.length == 4) {
         this.ui.nextBtn.disabled = false;
       }
@@ -107,7 +123,7 @@ class App {
       } else {
         if (this.ui.playerTurn.innerHTML === this.ui.firstPlayerNameInput) {
           this.checkOverlapDivs(this.ui.p1ShipsLocationArray);
-          if (this.overlap) {
+          if (this.isOverlap) {
             this.ui.displayError(
               "There is another ship at the selected location or it will collide with another ship"
             );
@@ -116,7 +132,7 @@ class App {
           }
         } else {
           this.checkOverlapDivs(this.ui.p2ShipsLocationArray);
-          if (this.overlap) {
+          if (this.isOverlap) {
             this.ui.displayError(
               "There is another ship at the selected location or it will collide with another ship"
             );
@@ -127,8 +143,15 @@ class App {
       }
     });
 
+    //eventlistener for go to Next page and secound player can choose ships location
     this.ui.nextBtn.addEventListener("click", (e) => {
       e.preventDefault();
+
+      //show loading box for 1 secound
+      this.ui.loadingPage.classList.remove('d-none')
+      setTimeout(() => {
+        this.ui.loadingPage.classList.add('d-none')
+      }, 1000);
 
       //remove css class first player ships
       const fillunit = document.querySelectorAll(".fill");
@@ -138,23 +161,36 @@ class App {
         ship.classList.add("col");
       });
       //call create board function for first player
-      this.ui.nextBtn.style.display = "none";
+      this.ui.nextBtn.classList.add('d-none')
       this.ui.doneShipsChosenBtn.classList.remove("d-none");
       this.ui.sideBar(
         this.ui.secoundPlayerNameInput,
         this.ui.firstPlayerNameInput
       );
-      /* this.ui.createBoard(this.ui.secoundPlayerNameInput); */
     });
 
+    //eventlistener for done btn. show information box about game
     this.ui.doneShipsChosenBtn.addEventListener("click", (e) => {
       e.preventDefault();
-      this.ui.gameBoard.style.display = "none";
+      //show loading box for 1 secound
+      this.ui.loadingPage.classList.remove('d-none')
+      setTimeout(() => {
+        this.ui.loadingPage.classList.add('d-none')
+      }, 1000);
+      this.ui.gameBoard.classList.add('d-none')
+
       this.ui.startTextBox.classList.remove("d-none");
     });
 
+
+    //eventlistener for START game
     this.ui.startChoosing.addEventListener("click", (e) => {
       e.preventDefault();
+      //show loading box for 1 secound
+      this.ui.loadingPage.classList.remove('d-none')
+      setTimeout(() => {
+        this.ui.loadingPage.classList.add('d-none')
+      }, 1000);
       this.ui.startTextBox.classList.add("d-none");
       this.ui.startingGameBoard.classList.remove("d-none");
 
@@ -168,70 +204,91 @@ class App {
       this.ui.secoundPlayerTitle.innerHTML = this.ui.secoundPlayerNameInput;
 
       this.ui.secooundPlayerBoard.classList.add("disable-board");
-      this.ui.playerTurnGame.innerHTML = this.ui.secoundPlayerNameInput;
+      this.ui.playerTurnGame.innerHTML = this.ui.firstPlayerNameInput;
     });
 
+    //eventlistener for  first player board, choose div and Guess the location of ships
     this.ui.firstPlayerBoard.addEventListener("click", (e) => {
       const chosenDiv = e.target;
-
-      this.ui.p1ShipsLocationArray.forEach((item) => {
-        if (item.location.includes(chosenDiv.innerHTML)) {
-          chosenDiv.classList.add("correct");
-          chosenDiv.classList.add("fas");
-          chosenDiv.classList.add("fa-ship");
-          chosenDiv.innerHTML ='';
-          this.p2Point += 50;
-        } else {
-          chosenDiv.classList.add("incorrect");
-          chosenDiv.classList.add("fas");
-          chosenDiv.classList.add("fa-times");
-          chosenDiv.innerHTML ='';
-          this.p2Point -= 10;
-        }
-      });
-      this.ui.secooundPlayerBoard.classList.remove("disable-board");
-      this.ui.firstPlayerBoard.classList.add("disable-board");
-      this.ui.playerTurnGame.innerHTML = this.ui.firstPlayerNameInput;
-      this.ui.player2Point.innerHTML = this.p2Point;
-    });
-    this.ui.secooundPlayerBoard.addEventListener("click", (e) => {
-      const chosenDiv = e.target;
+      let checkArray = [];
 
       this.ui.p2ShipsLocationArray.forEach((item) => {
-        if (item.location.includes(chosenDiv.innerHTML)) {
-          chosenDiv.classList.add("correct");
-          chosenDiv.classList.add("fas");
-          chosenDiv.classList.add("fa-ship");
-          chosenDiv.innerHTML ='';
-          this.p1Point += 50;
-        } else {
-          chosenDiv.classList.add("incorrect");
-          chosenDiv.classList.add("fas");
-          chosenDiv.classList.add("fa-times");
-          chosenDiv.innerHTML ='';
-          this.p1Point -= 10;
+        for (let i = 0; i < item.location.length; i++) {
+          checkArray.push(item.location[i]);
         }
       });
+
+      if (checkArray.includes(chosenDiv.innerHTML)) {
+        this.ui.correctShip(chosenDiv);
+        this.p1Point += 50;
+        this.p1countCorrectShips += 1;
+      } else {
+        this.ui.inCorrectShip(chosenDiv);
+        this.p1Point -= 10;
+      }
+      this.ui.secooundPlayerBoard.classList.remove("disable-board");
+      this.ui.firstPlayerBoard.classList.add("disable-board");
+      this.ui.playerTurnGame.innerHTML = this.ui.secoundPlayerNameInput;
+      this.ui.player2Point.innerHTML = this.p1Point;
+
+      if (this.p1countCorrectShips == 17) {
+        this.ui.showWinner(this.firstPlayerNameInput.value, this.p1Point, this.p2Point)
+      }
+    });
+
+    //eventlistener for  secound player board, choose div and Guess the location of ships
+    this.ui.secooundPlayerBoard.addEventListener("click", (e) => {
+      const chosenDiv = e.target;
+      let checkArray = [];
+
+      this.ui.p1ShipsLocationArray.forEach((item) => {
+        for (let i = 0; i < item.location.length; i++) {
+          checkArray.push(item.location[i]);
+        }
+      });
+
+      if (checkArray.includes(chosenDiv.innerHTML)) {
+        this.ui.correctShip(chosenDiv);
+        this.p2Point += 50;
+        this.p2countCorrectShips += 1;
+      } else {
+        this.ui.inCorrectShip(chosenDiv);
+        this.p2Point -= 10;
+      }
+
       this.ui.secooundPlayerBoard.classList.add("disable-board");
       this.ui.firstPlayerBoard.classList.remove("disable-board");
-      this.ui.playerTurnGame.innerHTML = this.ui.secoundPlayerNameInput;
-
-      this.ui.player1Point.innerHTML = this.p1Point;
+      this.ui.playerTurnGame.innerHTML = this.ui.firstPlayerNameInput;
+      this.ui.player1Point.innerHTML = this.p2Point;
+      console.log(this.p2countCorrectShips);
+      if (this.p2countCorrectShips == 17) {
+        this.ui.showWinner(this.ui.secoundPlayerNameInput, this.p1Point, this.p2Point)
+      }
+      
     });
+
+    //eventlistener for pause game
     this.ui.pauseBtn.addEventListener("click", (e) => {
       e.preventDefault();
       this.ui.pausePage.classList.remove("d-none");
     });
+
+    //eventlistener for countinue game
     this.ui.continueBtn.addEventListener("click", (e) => {
       e.preventDefault();
       this.ui.pausePage.classList.add("d-none");
     });
 
-    this.ui.resetGameBtn.addEventListener('click', ()=>{
+
+    //eventlistener for Reset game
+    this.ui.resetGameBtn.addEventListener("click", () => {
       location.reload();
-    })
+    });
   }
 
+
+
+  //Function to fill previously filled fields
   fillPopUpFieldsFromArray(shipsArray) {
     shipsArray.forEach((item) => {
       if (item.name === this.shipsName) {
@@ -245,47 +302,24 @@ class App {
   checkOverlapDivs(shipsArray) {
     this.locationShips = [];
     this.calculateShipDiv();
-
-
+    //add all old locations array in one new array for compare with new ship
     let arrayForAllLocation = [];
-    shipsArray.forEach(item => {
-      
-      item.location.forEach(locatiion => {
-        arrayForAllLocation.push(locatiion)
-      });
+    shipsArray.forEach((item) => {
+      if (this.shipsName !== item.name) {
+        item.location.forEach((location) => {
+          arrayForAllLocation.push(location);
+        });
+      }
     });
-console.log('newArray')
-console.log(arrayForAllLocation)
-
-for(let i=0; i<this.locationShips.length; i++){
-  if(arrayForAllLocation.includes(this.locationShips[i])){
-    this.overlap = true;
-          break;
-  }else{
-    this.overlap = false;
-  }
-}
-
-
- /*    for (let i = 0; i < shipsArray.length; i++) {
-      for (let j = 0; j < this.locationShips.length; j++) {
-        console.log(this.locationShips[j]);
-        console.log(this.locationShips[j]);
-        if (shipsArray[i].location.includes(this.locationShips[j])) {
-          this.overlap = true;
-          break;
-        } else {
-          this.overlap = false;
-        }
-      }  */
-      /* shipsArray[i].location.forEach((ship) => {
-        if (this.locationShips.includes(ship)) {
-          this.overlap = true;
-        } else {
-          this.overlap = false;
-        }
-      }); */
-    
+    //the loop for check new ship location and old ship location
+    for (let i = 0; i < this.locationShips.length; i++) {
+      if (arrayForAllLocation.includes(this.locationShips[i])) {
+        this.isOverlap = true;
+        break;
+      } else {
+        this.isOverlap = false;
+      }
+    }
   }
   positionOfShips(shipsArray) {
     // remove old location when set new location
@@ -353,7 +387,7 @@ for(let i=0; i<this.locationShips.length; i++){
     });
 
     //hide popup(location form)
-    this.ui.popUp.style.display = "none";
+    this.ui.popUp.classList.add('d-none')
 
     // remove field information
     this.ui.columnName.value = "";

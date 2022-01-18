@@ -1,17 +1,18 @@
 //create UI class
 class UI {
   constructor() {
-    //html page 
+    //html page
+    this.loadingPage = document.querySelector(".loading-box");
     this.startBox = document.querySelector(".start-box");
     this.gameBoard = document.querySelector(".game-board");
     this.startTextBox = document.querySelector(".start-text-box");
     this.startingGameBoard = document.querySelector(".starting-game-board");
     this.pausePage = document.querySelector(".pause-page");
 
-
     //
     this.playerBoardDiv = document.querySelector(".player-board");
     this.popUp = document.querySelector(".popup-ship-location");
+    this.popupBox = document.querySelector(".popup-box");
     this.playerTurn = document.querySelector(".player-whose-turn");
     this.playerNext = document.querySelector(".alert-warning span");
     this.popUpTitle = document.querySelector(".popup-title span");
@@ -22,6 +23,7 @@ class UI {
     this.playerTurnGame = document.querySelector(".player-turn");
     this.player2Point = document.querySelector(".player2-point");
     this.player1Point = document.querySelector(".player1-point");
+    this.textBox = document.querySelector(".text-box");
 
     //array
     this.columnArray = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"];
@@ -43,8 +45,8 @@ class UI {
     //Fields
     this.firstPlayerNameInput = document.getElementById("player1Name");
     this.secoundPlayerNameInput = document.getElementById("player2Name");
-    this.columnName = document.querySelector(".row-name");
-    this.rowName = document.querySelector(".column-name");
+    this.columnName = document.querySelector(".column-name");
+    this.rowName = document.querySelector(".row-name");
     this.directionsName = document.querySelector(".directions-name");
   }
 
@@ -59,7 +61,7 @@ class UI {
 
       //loop for create div in row
       for (let j = 1; j <= this.columnArray.length; j++) {
-        const div = document.createElement("div");
+        const div = document.createElement("button");
         div.id = this.columnArray[i] + j;
         div.classList.add("boardDiv");
         div.classList.add("col");
@@ -70,10 +72,7 @@ class UI {
 
       playerBoard.appendChild(row);
     }
-    return playerBoard
-    /* this.playerTurn.innerText = this.firstPlayerNameInput;
-      this.playerNext.innerText = this.secoundPlayerNameInput;
-      console.log(this.firstPlayerNameInput) */
+    return playerBoard;
   }
   sideBar(player1, player2) {
     this.playerTurn.innerText = player1;
@@ -87,7 +86,7 @@ class UI {
 
     div.innerText = err;
 
-    this.popUp.insertBefore(div, document.querySelector(".form-box"));
+    this.popupBox.insertBefore(div, document.querySelector(".form-box"));
 
     //remove error after 3secound
     setTimeout(() => {
@@ -95,6 +94,7 @@ class UI {
     }, 5000);
   }
 
+  //remove old ship in board (when edit ship location)
   removeShipsInBoard(name) {
     const checkoldship = document.querySelectorAll(`.${name}`);
     if (checkoldship.length !== 0) {
@@ -103,6 +103,8 @@ class UI {
       });
     }
   }
+
+  // add ship in board
   addShipsInBoard(name, shipArray) {
     for (let i = 0; i < shipArray.length; i++) {
       if (name == shipArray[i].name) {
@@ -113,6 +115,48 @@ class UI {
         });
       }
     }
+  }
+
+  // function for add css in correct ship choosen
+  correctShip(div) {
+    div.classList.add("correct");
+    div.classList.add("fas");
+    div.classList.add("fa-ship");
+    div.innerHTML = "";
+    div.disabled = true;
+  }
+
+  // function for add css incorrect ship choosen
+  inCorrectShip(div) {
+    div.classList.add("incorrect");
+    div.classList.add("fas");
+    div.classList.add("fa-times");
+    div.disabled = true;
+    div.innerHTML = "";
+  }
+
+  showWinner(playerName, p1Point, p2Point) {
+    console.log(p1Point , p2Point)
+    this.pausePage.classList.remove("d-none");
+    this.continueBtn.classList.add("d-none");
+    this.startingGameBoard.classList.add('d-none')
+    this.textBox.innerText = "";
+    let htmlText = `
+      <h3 class="text-uppercase">${playerName} win this game</h3>
+      <div class="d-flex justify-content-between p-5">
+                <div class="text-center text-capitalize">
+                  ${this.firstPlayerNameInput}<br/>
+                  ${p1Point}  
+                </div>
+                <div class="text-center text-capitalize">
+                  ${this.secoundPlayerNameInput}<br/>
+                  ${p2Point}
+                </div>
+            </div>
+
+    `;
+
+    this.textBox.innerHTML = htmlText;
   }
 }
 

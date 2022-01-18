@@ -1,4 +1,18 @@
+.loading-box{
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+}
+.loading-gif{
+    width: 100px;
+    position: absolute;
+    top: 45%;
+    left: 45%;
+}
 .main-div {
+    width: 600px;
+}
+.start-text-box{
     width: 600px;
 }
 
@@ -14,18 +28,21 @@
     border: 1px dashed rgb(133, 133, 133);
     width: 20px !important;
     height: 50px;
-    padding-top: 10px;
-    text-align: center;
+/*     padding-top: 10px;
+ */    text-align: center;
     color: rgb(181, 181, 181);
+    background-color: white;
 }
 
 .game-board {
     width: 80%;
-    display: none;
 }
-
-.player-board {
-    width: 550px !important
+.player-board{
+    width: 550px !important;
+}
+.player-board div{
+    
+    pointer-events: none;
 }
 
 .carrier-ship {
@@ -68,6 +85,7 @@
     height: 40px;
     border-top-left-radius: 50px;
     border-bottom-left-radius: 50px;
+    z-index: 0;
 }
 
 .patrol-ship:after {
@@ -79,7 +97,7 @@
     right: -15px;
     top: 6px;
     background-color: rgb(0, 0, 0);
-    z-index: -2;
+    z-index:-1 ;
 }
 
 .ships {
@@ -101,7 +119,19 @@
 }
 
 .popup-ship-location {
-    display: none;
+    
+    background-color: rgba(40, 50, 50, 0.651);
+    width: 100%;
+    height: 100%;
+}
+.popup-ship-location > div {
+    right: 0;
+    width: 500px;
+}
+
+.cancel-btn{
+    right : -20px !important;
+    top: -20px;
 }
 
 .player-whose-turn {
@@ -120,14 +150,13 @@
     background-color: #0096ff;
     font-size: 1.5rem;
     color: white;
+
 }
 
 .incorrect {
     background-color: rgb(194, 52, 0);
     font-size: 1.9rem;
     color: white;
-
-
 }
 
 .disable-board {
@@ -171,21 +200,21 @@
 .reset-game{
     background-color: rgb(59, 60, 60);
     border-radius: 50%;
-    width: 29px;
-    height: 29px;
-    font-size: .8rem;
+    width: 60px;
+    height: 60px;
+    font-size: 1.8rem;
     color: rgb(220, 220, 220);
     text-align: center;
-    padding: 9px;
+    padding: 15px;
     margin: 1px 2px 0 2px;
 }
 
 .reset-game:hover{
-    font-size: 1rem;
+    font-size: 2rem;
     color: rgb(255, 255, 255);
     background-color: rgb(59, 60, 60);
-    width: 35px;
-    height: 35px;
+    width: 65px;
+    height: 65px;
     transition: ease .4s;
     cursor: pointer;
     text-align: center;

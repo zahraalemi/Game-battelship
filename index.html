@@ -14,7 +14,10 @@
 </head>
 
 <body class="bg-light">
+    <div class="loading-box position-absolute bg-light top-0 text-center align-middle d-none">
+        <img src="./img/loading.gif" class="loading-gif" />
 
+    </div>
     <div class="container start-box">
         <div class="main-div bg-white p-4 m-5 rounded shadow mx-auto">
             <div class="row d-flex flex-column ">
@@ -41,7 +44,7 @@
 
         </div>
     </div>
-    <div class="game-board container p-4 m-5 rounded shadow mx-auto">
+    <div class="game-board  bg-white container p-4 m-5 rounded shadow mx-auto d-none">
         <div class="row">
             <div class="player-board col-lg-6"></div>
             <div class="col-lg-6 player-ship p-4">
@@ -51,6 +54,7 @@
                     <p class="alert alert-warning"><span>p2</span> should not look at the monitor</p>
                 </div>
                 <div class="ships-box d-flex flex-wrap p-3">
+                    <p>Select the location you want for each ship (click on the ships below)</p>
                     <a href="#" class="carrier-ship ships m-1">carrier</a>
                     <a href="#" class="battelship-ship ships m-1">battelship</a>
                     <a href="#" class="destroyer-ship ships m-1">destroyer</a>
@@ -60,70 +64,85 @@
                 <div class="row p-3">
                     <button href="#" class="next-player btn btn-success" disabled>Next Player</button>
                     <button href="#" class="done-ships-chosen d-none btn btn-success" disabled>Done</button>
-                    <!--  <button href="#" class="next-player btn btn-success" disabled>Next Player</button>   -->
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="popup-ship-location position-absolute top-50 start-50 translate-middle p-4 border rounded bg-white">
-        <h5 class="popup-title">Choose your <span class="text-primary">ship</span> location</h5>
-        <div class="d-flex form-box">
-            <div class="d-flex flex-column">
-                <select class="form-select column-name" aria-label="Default select example">
-                    <option value="" selected>chosse row</option>
-                    <option value="A">A</option>
-                    <option value="B">B</option>
-                    <option value="C">C</option>
-                    <option value="D">D</option>
-                    <option value="E">E</option>
-                    <option value="F">F</option>
-                    <option value="G">G</option>
-                    <option value="H">H</option>
-                    <option value="I">I</option>
-                    <option value="I">J</option>
-                </select>
-                <select class="form-select row-name" aria-label="Default select example">
-                    <option value="" selected>chosse column</option>
-                    <option value="1">One</option>
-                    <option value="2">Two</option>
-                    <option value="3">Three</option>
-                    <option value="4">four</option>
-                    <option value="5">five</option>
-                    <option value="6">sex</option>
-                    <option value="7">seven</option>
-                    <option value="8">eight</option>
-                    <option value="9">nine</option>
-                    <option value="10">ten</option>
-                </select>
+    <div class="popup-ship-location position-absolute top-0 p-4 d-none">
+        <div class="popup-box position-absolute top-50 translate-middle p-4 border rounded bg-white shadow">
+            <a href="#" class="cancel-btn btn btn-danger position-absolute shadow rounded-circle"><i
+                    class="fas fa-times"></i></a>
 
-            </div>
-            <div>
-                <select class="form-select directions-name" aria-label="Default select example">
-                    <option value="" selected>chosse </option>
-                    <option value="Vertical">Vertical</option>
-                    <option value="Hourizontal">Hourizontal</option>
-                </select>
-            </div>
-            <div>
-                <a href="#" class="done-btn btn btn-primary">Done</a>
-                <a href="#" class="cancel-btn btn btn-secondary">cancel</a>
+            <h5 class="test-test popup-title">Choose your <span class="text-primary">ship</span> location</h5>
+            <div class="d-flex form-box">
+                <div class="d-flex flex-column p-3">
+                    <div class="d-flex p-2">
+                        <select class="form-select row-name shadow-sm" aria-label="Default select example">
+                            <option value="" selected>Chosse Row</option>
+                            <option value="A">A</option>
+                            <option value="B">B</option>
+                            <option value="C">C</option>
+                            <option value="D">D</option>
+                            <option value="E">E</option>
+                            <option value="F">F</option>
+                            <option value="G">G</option>
+                            <option value="H">H</option>
+                            <option value="I">I</option>
+                            <option value="J">J</option>
+                        </select>
+                    </div>
+                    <div class="d-flex p-2">
+                        <select class="form-select column-name shadow-sm" aria-label="Default select example">
+                            <option value="" selected>Chosse Column</option>
+                            <option value="1">One</option>
+                            <option value="2">Two</option>
+                            <option value="3">Three</option>
+                            <option value="4">four</option>
+                            <option value="5">five</option>
+                            <option value="6">sex</option>
+                            <option value="7">seven</option>
+                            <option value="8">eight</option>
+                            <option value="9">nine</option>
+                            <option value="10">ten</option>
+                        </select>
+                    </div>
+
+
+                </div>
+                <div class="d-flex flex-column p-3 justify-content-center">
+                    <div class="p-2">
+                        <select class="form-select directions-name shadow-sm" aria-label="Default select example">
+                            <option value="" selected>chosse Direction</option>
+                            <option value="Vertical">Vertical</option>
+                            <option value="Hourizontal">Hourizontal</option>
+                        </select>
+                    </div>
+
+                    <div class="p-2">
+                        <a href="#" class="done-btn btn btn-success p-1 px-5 shadow">GO</i></a>
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="start-text-box container p-4 m-5 rounded shadow mx-auto d-none">
-        <div>
-
+    <div class="start-text-box p-4 m-5 rounded shadow mx-auto bg-white d-none">
+        <div class="col my-4 img text-center">
+            <img src="img/boat.png" alt="boat" class="boat-image">
+        </div>
+        <div class="p-4">
             <h5>Now you can start the game.</h5>
             <p>For every correct house you find, you get 50 points, and for every wrong house, you lose 10 points.
             </p>
             <p>
                 The one who can find all the wrestling houses of the opposing player sooner wins</p>
-            <h3 class="text-center"><span class="text-uppercase">player2</span> will start the game</h3>
-            <button class="start-choosing btn btn-success">Start Game</button>
+            <div class="text-center">
+                <button class="start-choosing btn btn-success">Start Game</button>
+            </div>
         </div>
     </div>
-    <div class="starting-game-board container p-4 m-5 rounded shadow mx-auto d-none">
+    <div class="starting-game-board container p-4 m-5 rounded shadow mx-auto d-none bg-white">
         <div class="row">
             <div class="col-4 text-start">
                 <h3>Battleship Game</h3>
@@ -134,7 +153,6 @@
             <div class="col-4 text-end ">
                 <div class="d-flex justify-content-end">
                     <i class="fas fa-pause-circle pause-btn" title="Pause Game"></i>
-                    <i class="reset-game fas fa-redo-alt" title="Reset Game"></i></a>
                 </div>
 
 
@@ -144,7 +162,7 @@
         <div class="row">
             <div class="pt-5 px-5 col-lg-6">
                 <div class="d-flex justify-content-between">
-                    <h5 class="fw-light"><span class="ptwo-name text-uppercase"> player2</span> has to choose a ship on
+                    <h5 class="fw-light"><span class="pone-name text-uppercase"> player1</span> has to choose a ship on
                         this
                         board</h5>
                     <h5><span class="player2-point">0</span> point</h5>
@@ -154,7 +172,7 @@
             </div>
             <div class="pt-5 px-5 col-lg-6">
                 <div class="d-flex justify-content-between">
-                    <h5 class="fw-light"><span class="pone-name text-uppercase"> player2</span> has to choose a ship on
+                    <h5 class="fw-light"><span class="ptwo-name text-uppercase"> player2</span> has to choose a ship on
                         this
                         board</h5>
                     <h5><span class="player1-point">0</span> point</h5>
@@ -166,15 +184,22 @@
             </div>
         </div>
     </div>
-    <div class="pause-page d-none position-absolute top-0 p-4 border bg-dark">
+    <div class="pause-page d-none position-absolute top-0 p-4 border bg-light">
 
         <div class="d-flex flex-column align-items-center p-5">
             <div class="col my-4 img text-center">
                 <img src="img/boat.png" alt="boat" class="boat-image">
             </div>
-            <h3 class="text-light p-3">You Paused This Game</h3>
-                <i class="continue-btn fas fa-play-circle"></i>
-            
+            <div class="text-box">
+                <h3 class="text-dark p-3">You Paused This Game</h3>
+
+            </div>
+            <div class="d-flex">
+                <i class="continue-btn fas fa-play-circle m-2" title="Continue"></i>
+                <i class="reset-game fas fa-redo-alt m-2" title="Reset Game"></i></a>
+            </div>
+
+
         </div>
     </div>
 
