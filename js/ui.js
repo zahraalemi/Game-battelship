@@ -9,7 +9,7 @@ class UI {
     this.startingGameBoard = document.querySelector(".starting-game-board");
     this.pausePage = document.querySelector(".pause-page");
 
-    //
+    //other
     this.playerBoardDiv = document.querySelector(".player-board");
     this.popUp = document.querySelector(".popup-ship-location");
     this.popupBox = document.querySelector(".popup-box");
@@ -69,7 +69,7 @@ class UI {
 
         row.appendChild(div);
       }
-
+      
       playerBoard.appendChild(row);
     }
     return playerBoard;
@@ -85,7 +85,7 @@ class UI {
     div.classList = "alert alert-danger";
 
     div.innerText = err;
-
+//show error befor div with this class 
     this.popupBox.insertBefore(div, document.querySelector(".form-box"));
 
     //remove error after 3secound
@@ -104,8 +104,9 @@ class UI {
     }
   }
 
-  // add ship in board
+  // add ships in board
   addShipsInBoard(name, shipArray) {
+    //Loop for find the specifications of the desired ship
     for (let i = 0; i < shipArray.length; i++) {
       if (name == shipArray[i].name) {
         shipArray[i].location.forEach((item) => {
@@ -134,7 +135,7 @@ class UI {
     div.disabled = true;
     div.innerHTML = "";
   }
-
+// function for show who wins
   showWinner(playerName, p1Point, p2Point) {
     console.log(p1Point , p2Point)
     this.pausePage.classList.remove("d-none");
